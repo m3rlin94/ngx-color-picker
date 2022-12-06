@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "clean": "rm -rf dist",
-    "copy:files": "cp -R README.md .\\dist\\lib\\ && cp -R LICENSE .\\dist\\lib\\",
+    "copy:files": "cp -R README.md ./dist/ && cp -R LICENSE ./dist/",
     "build:git:demo": "ng build --configuration production",
     "build:library": "ng test ngx-library && ng build ngx-library --configuration production && npm run copy:files && npm run build:git:demo",
     "build:publish": "npm publish dist/lib/ --access public --tag=support-14.1.0"
