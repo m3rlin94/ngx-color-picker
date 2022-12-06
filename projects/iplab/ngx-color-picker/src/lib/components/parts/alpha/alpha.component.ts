@@ -33,6 +33,8 @@ export class AlphaComponent extends BaseComponent implements OnChanges {
     @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
 
+    pointerPosition: number;
+    
     private isVertical: boolean = false;
 
     constructor(private readonly renderer: Renderer2) {
@@ -70,6 +72,7 @@ export class AlphaComponent extends BaseComponent implements OnChanges {
     private changePointerPosition(alpha: number): void {
         const x = alpha * 100;
         const orientation = this.isVertical ? 'top' : 'left';
+        this.pointerPosition = x;
         this.renderer.setStyle(this.pointer.nativeElement, orientation, `${x}%`);
     }
 

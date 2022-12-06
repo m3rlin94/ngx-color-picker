@@ -41,6 +41,8 @@ export class HueComponent extends BaseComponent implements OnChanges {
 
     private isVertical: boolean = false;
 
+    pointerPosition: number;
+
     constructor(private readonly renderer: Renderer2) {
         super();
     }
@@ -79,6 +81,9 @@ export class HueComponent extends BaseComponent implements OnChanges {
     private changePointerPosition(hue: number): void {
         const x = hue / 360 * 100;
         const orientation = this.isVertical ? 'top' : 'left';
+        console.log('x', x);
+        
+        this.pointerPosition = x;
         this.renderer.setStyle(this.pointer.nativeElement, orientation, `${x}%`);
     }
 }
