@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ColorPickerModule } from '@rozieai/ngx-color-picker';
+import { ColorPickerModule } from '@m3rlin94/ngx-color-picker';
 import { AppComponent } from './app.component';
 
 /**

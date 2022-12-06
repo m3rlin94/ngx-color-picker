@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef } from '@angular/core';
-import { ColorPickerControl, ColorsTable } from '@rozieai/ngx-color-picker';
+import { ColorPickerControl, ColorsTable } from '@m3rlin94/ngx-color-picker';
 import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 
 @Component({
