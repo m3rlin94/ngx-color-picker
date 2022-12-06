@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Input, Output, HostBinding, HostListener } from '@angular/core';
-import { ColorPickerControl, Color } from '@iplab/ngx-color-picker';
+import { ColorPickerControl, Color } from '@rozieai/ngx-color-picker';
 
 @Component({
     selector: 'chrome-wrapper',

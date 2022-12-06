@@ -1,5 +1,5 @@
 import { TestBed, inject, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
-import { Color } from '@iplab/ngx-color-picker';
+import { Color } from '@rozieai/ngx-color-picker';
 
 const staticColors = {
     blue: {

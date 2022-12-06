@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ColorPickerModule } from '@iplab/ngx-color-picker';
+import { ColorPickerModule } from '@rozieai/ngx-color-picker';
 import { ChromeWrapperComponent } from './chrome-picker/chrome-wrapper.component';
 
 

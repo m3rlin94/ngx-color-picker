@@ -19,7 +19,7 @@
       "dom"
     ],
     "paths": {
-      "@iplab/ngx-color-picker": [
+      "@rozieai/ngx-color-picker": [
         "projects/iplab/ngx-color-picker/src/public-api"
       ]
     }
