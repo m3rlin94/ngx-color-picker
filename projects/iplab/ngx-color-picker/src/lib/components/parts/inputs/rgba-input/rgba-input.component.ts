@@ -57,4 +57,9 @@ export class RgbaComponent {
         this.hueChange.emit(hue);
         this.colorChange.emit(newColor);
     }
+
+    get rgbaValue() {
+        const val = Math.trunc(this.value?.getAlpha() * 100);
+        return val.toString()
+    }
 }
