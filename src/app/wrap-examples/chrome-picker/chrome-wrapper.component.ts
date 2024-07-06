@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Input, Output, HostBinding, HostListener, OnDestroy } from '@angular/core';
-import { ColorPickerControl, Color, getValueByType, ChromePickerComponent } from '@iplab/ngx-color-picker';
+import { ColorPickerControl, Color, getValueByType, ChromePickerComponent } from '@m3rlin94/ngx-color-picker';
 
 @Component({
     selector: 'chrome-wrapper',

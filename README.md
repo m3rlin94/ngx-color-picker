@@ -2,7 +2,7 @@
 > Pure Angular color picker library.
 
 
-[![npm version](https://badge.fury.io/js/%40iplab%2Fngx-color-picker.svg)](https://www.npmjs.com/package/@iplab/ngx-color-picker)
+[![npm version](https://badge.fury.io/js/%40m3rlin94%2Fngx-color-picker.svg)](https://www.npmjs.com/package/@m3rlin94/ngx-color-picker)
 [![Build Status](https://travis-ci.org/pIvan/ngx-color-picker.svg?branch=master)](https://travis-ci.org/pIvan/ngx-color-picker)
 
 # Demo
@@ -31,12 +31,12 @@ more detailed instructions can be found
 ## Installing / Getting started
 
 ```shell
-npm install @iplab/ngx-color-picker --save
+npm install @m3rlin94/ngx-color-picker --save
 ```
 
 Use the following snippet inside your app module: 
 ```shell
-import { ColorPickerModule } from '@iplab/ngx-color-picker';
+import { ColorPickerModule } from '@m3rlin94/ngx-color-picker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 ...
 ...

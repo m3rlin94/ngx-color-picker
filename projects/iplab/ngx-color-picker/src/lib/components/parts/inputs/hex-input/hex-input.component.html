@@ -1,6 +1,8 @@
-<div class="column">
-    <input #elRef type="text" [value]="value" (keyup)="onInputChange($event, elRef.value)" />
-    @if (labelVisible()) {
-        <span>HEX</span>
+<div class="row hex-container">
+    @if (labelVisible) {
+        <span class="hex-label">hex</span>
     }
+    <span class="hex-value-container">
+        #<input class="hex-input" #elRef type="text" [value]="value" (keyup)="onInputChange($event, elRef.value)" />
+    </span>
 </div>

@@ -35,6 +35,8 @@ export class AlphaComponent extends BaseComponent {
     @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
 
+    pointerPosition: number;
+
     constructor(private readonly renderer: Renderer2) {
         super();
 
@@ -62,6 +64,7 @@ export class AlphaComponent extends BaseComponent {
      */
     private changePointerPosition(alpha: number): void {
         const x = alpha * 100;
+        this.pointerPosition = x;
         const orientation = this.isVertical() ? 'top' : 'left';
         this.renderer.setStyle(this.pointer.nativeElement, orientation, `${x}%`);
     }

@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, ElementRef } from '@angular/core';
-import { ColorPickerControl, ColorPickerModule, ColorsTable } from '@iplab/ngx-color-picker';
+import { ColorPickerControl, ColorPickerModule, ColorsTable } from '@m3rlin94/ngx-color-picker';
 import * as prettify from 'google-code-prettify/bin/prettify.min.js';
 import { ChromeWrapperComponent } from './wrap-examples/chrome-picker/chrome-wrapper.component';
+import { SketchPickerComponent } from '@m3rlin94/ngx-color-picker';
 
 interface IDescription {
   property: string;
@@ -16,7 +17,8 @@ interface IDescription {
   standalone: true,
   imports: [
     ColorPickerModule,
-    ChromeWrapperComponent
+    ChromeWrapperComponent,
+    SketchPickerComponent
   ]
 })
 export class AppComponent implements AfterViewInit {

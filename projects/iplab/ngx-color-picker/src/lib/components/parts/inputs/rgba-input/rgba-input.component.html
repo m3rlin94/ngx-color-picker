@@ -1,4 +1,4 @@
-<div class="column">
+<!-- <div class="column">
     <input type="text" pattern="[0-9]*" min="0" max="255" [value]="value?.getRed().toString()" (inputChange)="onInputChange($event, 'R')" />
     @if (labelVisible()) {
         <span>R</span>
@@ -12,15 +12,9 @@
 </div>
 <div class="column">
     <input type="text" pattern="[0-9]*" min="0" max="255" [value]="value?.getBlue().toString()" (inputChange)="onInputChange($event, 'B')" />
-    @if (labelVisible()) {
-        <span>B</span>
-    }
-</div>
-@if (isAlphaVisible()) {
-    <div class="column">
-        <input type="text" pattern="[0-9]+([\.,][0-9]{1,2})?" min="0" max="1" [value]="value?.getAlpha().toString()" (inputChange)="onInputChange($event, 'A')" />
-        @if (labelVisible()) {
-            <span>A</span>
-        }
-    </div>
-}
+    <span *ngIf="labelVisible">B</span>
+</div> -->
+<span class="alpha-container">
+    <input class="alpha-input" type="text" pattern="[0-9]+([\.,][0-9]{1,2})?" min="0" max="1" [value]="rgbaValue" (inputChange)="onInputChange($event, 'A')" />
+    %
+</span>

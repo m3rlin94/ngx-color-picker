@@ -37,4 +37,9 @@ export class RgbaComponent {
         const newColor = new Color().setRgba(red, green, blue, alpha);
         this.color.set(newColor);
     }
+
+    get rgbaValue() {
+        const val = Math.trunc(this.value?.getAlpha() * 100);
+        return val.toString()
+    }
 }

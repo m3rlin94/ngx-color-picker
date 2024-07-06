@@ -1,16 +1,26 @@
 :host {
     display: block;
-    padding: 9px;
-    width: 220px;
-    border-radius: 4px;
-    background: #fff;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 2px, rgba(0, 0, 0, 0.3) 0px 1px 4px;
+    width: auto;
+}
+
+rgba-input-component {
+    width: unset;
+}
+
+.value-row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex: 1;
+    width: 100%;
+    margin-top: 16px;
 }
 
 saturation-component {
-    height: 146px;
-    border-radius: 2px;
-    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
+    height: 232px;
+    width: 232px;
+    border-radius: 4px;
+    // box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
 }
 
 saturation-component ::ng-deep .pointer {
@@ -26,13 +36,10 @@ saturation-component ::ng-deep .pointer {
 
 hue-component,
 alpha-component {
-    height: 10px;
-    border-radius: 2px;
-    box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
-}
-
-hue-component {
-    margin-bottom: 4px;
+    height: 8px;
+    border-radius: 100px;
+    margin-top: 16px;
+    // box-shadow: inset rgba(0, 0, 0, 0.6) 0px 0px 2px;
 }
 
 .controls-row {
@@ -71,20 +78,25 @@ color-presets-component ::ng-deep .presets-row {
 }
 
 .controls-row.hue-alpha {
-    padding-bottom: 9px;
+    // padding-bottom: 9px;
 }
 
 .controls-row.hue-alpha .column:first-child {
-    padding-right: 5px;
+    // padding-right: 5px;
 }
 
 .hue-alpha ::ng-deep .pointer {
-    width: 6px;
-    margin: 0 0 0 -3px;
-    height: 100%;
+    width: 8px;
+    height: 8px;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    // margin: 0 0 0 -4px;
     top: 0;
-    border-radius: 2px;
-    border: 1px solid #898989;
+    border-radius: 100%;
+    border: 2px solid #fff;
+    filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.25));
+    background-color: transparent;
 }
 
 .presentation .column:first-child {

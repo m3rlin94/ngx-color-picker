@@ -33,6 +33,9 @@ export class HueComponent extends BaseComponent {
     @ViewChild('pointer', { static: true })
     public pointer: ElementRef;
 
+
+    pointerPosition: number;
+
     constructor(private readonly renderer: Renderer2) {
         super();
 
@@ -56,6 +59,7 @@ export class HueComponent extends BaseComponent {
      */
     private changePointerPosition(hue: number): void {
         const x = (hue / 360) * 100;
+        this.pointerPosition = x;
         const orientation = this.isVertical() ? 'top' : 'left';
         this.renderer.setStyle(this.pointer.nativeElement, orientation, `${x}%`);
     }
