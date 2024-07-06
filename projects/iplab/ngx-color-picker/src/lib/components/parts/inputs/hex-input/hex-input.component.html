@@ -1,5 +1,7 @@
 <div class="row hex-container">
-    <span class="hex-label" *ngIf="labelVisible">hex</span>
+    @if (labelVisible) {
+        <span class="hex-label">hex</span>
+    }
     <span class="hex-value-container">
         #<input class="hex-input" #elRef type="text" [value]="value" (keyup)="onInputChange($event, elRef.value)" />
     </span>

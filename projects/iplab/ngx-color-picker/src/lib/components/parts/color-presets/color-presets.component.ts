@@ -1,5 +1,9 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, InputSignal, input, numberAttribute, model, ModelSignal } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
+import { ColorPresetSublist } from './../color-preset-sublist/color-preset-sublist.component';
+import { ColorPresetComponent } from './../color-preset/color-preset.component';
+import { ChunksPipe } from './../../../pipes/chunks.pipe';
 
 @Component({
     selector: `color-presets-component`,
@@ -8,41 +12,26 @@ import { Color } from './../../../helpers/color.class';
         `./../base.style.scss`,
         `./color-presets.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [ColorPresetComponent, ColorPresetSublist, NgClass, ChunksPipe],
 })
 export class ColorPresetsComponent {
 
-    @Input()
-    public columns: number = 8;
+    public columns: InputSignal<number> = input<number, number>(8, { transform: numberAttribute });
 
-    @Input()
-    public colorPresets: Array<Array<Color> | Color>;
+    public colorPresets: InputSignal<Array<Array<Color> | Color>> = input.required<Array<Array<Color> | Color>>();
 
-    @Input()
-    public hue: Color;
+    public color: ModelSignal<Color> = model.required<Color>();
 
-    @Output()
-    public hueChange = new EventEmitter<Color>(false);
-
-    @Input()
-    public color: Color;
-
-    @Output()
-    public colorChange = new EventEmitter<Color>(false);
-
-    @Input()
-    public direction: 'down' | 'up' | 'left' | 'right' = 'up';
+    public direction: InputSignal<'down' | 'up' | 'left' | 'right'> = input<'down' | 'up' | 'left' | 'right'>('up');
 
     public onSelectionChange(color: Color): void {
         const selectedRgbaColor = color.getRgba();
-        const selectedHsvaColor = color.getHsva();
 
         const newColor = new Color()
             .setRgba(selectedRgbaColor.red, selectedRgbaColor.green, selectedRgbaColor.blue, selectedRgbaColor.alpha);
-        const hueColor = new Color().setHsva(selectedHsvaColor.hue);
-
-        this.hueChange.emit(hueColor);
-        this.colorChange.emit(newColor);
+        this.color.set(newColor);
     }
 
     public isList(colorPreset: Array<Array<Color> | Color>): boolean {

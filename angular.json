@@ -68,21 +68,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngx-color-picker:build",
             "port": 4200,
             "host": "0.0.0.0",
-            "open": true
+            "open": true,
+            "buildTarget": "ngx-color-picker:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngx-color-picker:build:production"
+              "buildTarget": "ngx-color-picker:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngx-color-picker:build"
+            "buildTarget": "ngx-color-picker:build"
           }
         },
         "test": {
@@ -100,18 +100,6 @@
               "src/styles.css"
             ],
             "scripts": []
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ngx-color-picker:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "ngx-color-picker:serve:production"
-            }
           }
         }
       }
@@ -144,5 +132,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

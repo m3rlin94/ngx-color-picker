@@ -1,5 +1,6 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, booleanAttribute, InputSignal, input, model, ModelSignal } from '@angular/core';
 import { Color } from './../../../../helpers/color.class';
+import { ColorPickerInputDirective } from '../../../../directives/color-picker-input.directive';
 
 
 @Component({
@@ -10,38 +11,20 @@ import { Color } from './../../../../helpers/color.class';
         `./../input.component.scss`,
         `./hsla-input.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [ColorPickerInputDirective]
 })
 export class HslaComponent {
 
-    @Input()
-    public hue: Color;
+    public color: ModelSignal<Color> = model.required<Color>();
 
-    @Output()
-    public hueChange = new EventEmitter<Color>(false);
+    public labelVisible: InputSignal<boolean> = input<boolean, boolean>(false, { alias: 'label', transform: booleanAttribute });
 
-    @Input()
-    public color: Color;
-
-    @Output()
-    public colorChange = new EventEmitter<Color>(false);
-
-    public labelVisible: boolean;
-
-    @Input()
-    public set label(value) {
-        this.labelVisible = true;
-    }
-
-    public isAlphaVisible: boolean = true;
-
-    @Input()
-    public set alpha(isVisible: boolean) {
-        this.isAlphaVisible = isVisible;
-    }
+    public isAlphaVisible: InputSignal<boolean> = input<boolean, boolean>(true, { alias: 'alpha', transform: booleanAttribute });
 
     public get value() {
-        return this.color ? this.color.getHsla() : null;
+        return this.color()?.getHsla();
     }
 
     public onInputChange(newValue: number, color: 'H' | 'S' | 'L' | 'A') {
@@ -51,11 +34,7 @@ export class HslaComponent {
         const lightness = color === 'L' ? newValue : value.lightness;
         const alpha = color === 'A' ? newValue : value.alpha;
 
-
         const newColor = new Color().setHsla(hue, saturation, lightness, alpha);
-        const hueColor = new Color().setHsva(newColor.getHsva().hue);
-
-        this.hueChange.emit(hueColor);
-        this.colorChange.emit(newColor);
+        this.color.set(newColor);
     }
 }

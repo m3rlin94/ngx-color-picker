@@ -1,18 +1,22 @@
-<saturation-component [hue]="control.hue" [(color)]="control.value"></saturation-component>
+<ng-content select="[before]"></ng-content>
+
+<saturation-component [(color)]="control().value" />
 
 <div>
     <div class="controls-row hue-alpha">
         <div class="column">
-            <hue-component [(hue)]="control.hue" [(color)]="control.value"></hue-component>
-            <alpha-component *ngIf="control.alphaChannelVisibilityChanges | async" [(color)]="control.value"></alpha-component>
+            <hue-component [(color)]="control().value" />
+            @if (control().alphaChannelVisibilityChanges | async) {
+                <alpha-component [(color)]="control().value" />
+            }
         </div>
         <!-- <div class="column indicator-column">
             <indicator-component colorType="rgba" [color]="control.value"></indicator-component>
         </div> -->
     </div>
     <div class="value-row">
-        <hex-input-component label [(color)]="control.value" [(hue)]="control.hue"></hex-input-component>
-        <rgba-input-component [alpha]="control.alphaChannelVisibilityChanges | async" label [(color)]="control.value" [(hue)]="control.hue"></rgba-input-component>
+        <hex-input-component label [(color)]="control().value" />
+        <rgba-input-component [alpha]="control().alphaChannelVisibilityChanges | async" label [(color)]="control().value" />
     </div>
 </div>
 

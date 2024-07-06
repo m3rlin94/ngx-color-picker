@@ -63,24 +63,20 @@ export { IpPickerComponent } from './components/ip-picker/ip-picker.component';
 /**
  * services
  */
-import { ColorPickerConfig, IColorPickerConfig } from './services/color-picker.service';
+import { COLOR_PICKER_CONFIG, ColorPickerConfig, IColorPickerConfig } from './services/color-picker.service';
 
 /**
  * exports
  */
 export { Color } from './helpers/color.class';
-export { ColorPickerControl } from './helpers/control.class';
+export { ColorPickerControl, ColorType } from './helpers/control.class';
 export { ColorsTable } from './helpers/colors-table.class';
-export { IColorPickerConfig } from './services/color-picker.service';
+export { getValueByType } from './helpers/helper.functions';
+export { IColorPickerConfig, COLOR_PICKER_CONFIG, ColorPickerConfig } from './services/color-picker.service';
 
 @NgModule({
     imports: [
-        CommonModule
-    ],
-    providers: [
-        ColorPickerConfig
-    ],
-    declarations: [
+        CommonModule,
         SaturationComponent,
         IndicatorComponent,
         HueComponent,
@@ -97,7 +93,6 @@ export { IColorPickerConfig } from './services/color-picker.service';
         ColorPickerInputDirective,
         ChunksPipe,
         ReversePipe,
-
         /**
          * prepared components
          */
@@ -134,7 +129,7 @@ export class ColorPickerModule {
         return {
             ngModule: ColorPickerModule,
             providers: [
-                { provide: ColorPickerConfig, useValue: configuration || new ColorPickerConfig() }
+                { provide: COLOR_PICKER_CONFIG, useValue: configuration || new ColorPickerConfig() }
             ]
         };
     }

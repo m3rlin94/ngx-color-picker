@@ -1,12 +1,16 @@
-import { Component, OnInit, EventEmitter, Input, Output, HostBinding, HostListener } from '@angular/core';
-import { ColorPickerControl, Color } from '@m3rlin94/ngx-color-picker';
+import { Component, OnInit, EventEmitter, Input, Output, HostBinding, HostListener, OnDestroy } from '@angular/core';
+import { ColorPickerControl, Color, getValueByType, ChromePickerComponent } from '@m3rlin94/ngx-color-picker';
 
 @Component({
     selector: 'chrome-wrapper',
     templateUrl: './chrome-wrapper.component.html',
-    styleUrls: ['./chrome-wrapper.component.css']
+    styleUrls: ['./chrome-wrapper.component.scss'],
+    standalone: true,
+    imports: [ChromePickerComponent]
 })
-export class ChromeWrapperComponent implements OnInit {
+export class ChromeWrapperComponent implements OnInit, OnDestroy {
+
+    private _color: Color = null;
 
     public colorControl = new ColorPickerControl();
 
@@ -15,6 +19,7 @@ export class ChromeWrapperComponent implements OnInit {
     @Input()
     public set color(color: string) {
         this.colorControl.setValueFrom(color);
+        this._color = this.colorControl.value;
     }
 
     @Output()
@@ -22,11 +27,15 @@ export class ChromeWrapperComponent implements OnInit {
 
     @HostBinding('style.background-color')
     public get background(): string {
-        return this.colorControl.value.toHexString();
+        return this._color ? this._color.toHexString() : null;
     }
 
-    ngOnInit() {
-        this.colorControl.valueChanges.subscribe((value: Color) => this.colorChange.emit(value.toHexString()));
+    constructor() {}
+
+    public ngOnInit(): void {
+    }
+
+    public ngOnDestroy(): void {
     }
 
     @HostListener('click', ['$event'])
@@ -38,10 +47,15 @@ export class ChromeWrapperComponent implements OnInit {
         this.isVisible = !this.isVisible;
     }
 
-    public overlayClick(event: MouseEvent): void {
-        event.preventDefault();
+    public applyClick(event: MouseEvent): void {
         event.stopPropagation();
+        this._color = this.colorControl.value;
+        this.colorChange.emit(getValueByType(this.colorControl.value, this.colorControl.initType));
         this.isVisible = false;
     }
 
+    public discardClick(event: MouseEvent): void {
+        event.stopPropagation();
+        this.isVisible = false;
+    }
 }

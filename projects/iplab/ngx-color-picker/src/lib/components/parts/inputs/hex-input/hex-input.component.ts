@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, booleanAttribute, InputSignal, input, model, ModelSignal } from '@angular/core';
 import { Color } from '../../../../helpers/color.class';
 
 
@@ -10,37 +10,19 @@ import { Color } from '../../../../helpers/color.class';
         `./../input.component.scss`,
         `./hex-input.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class HexComponent {
 
-    @Input()
-    public hue: Color;
+    public color: ModelSignal<Color> = model.required<Color>();
 
-    @Output()
-    public hueChange = new EventEmitter<Color>(false);
+    public labelVisible: InputSignal<boolean> = input<boolean, boolean>(false, { alias: 'label', transform: booleanAttribute });
 
-    @Input()
-    public color: Color;
-
-    @Output()
-    public colorChange = new EventEmitter<Color>(false);
-
-    public labelVisible: boolean;
-    private prefixValue: string = '';
-
-    @Input()
-    public set label(value) {
-        this.labelVisible = true;
-    }
-
-    @Input()
-    public set prefix(value) {
-        this.prefixValue = value;
-    }
+    public prefixValue: InputSignal<string> = input<string>('', { alias: 'prefix' });
 
     public get value() {
-        return this.prefixValue + (this.color ? this.color.toHexString(this.color.getRgba().alpha < 1).replace('#', '') : '');
+        return this.prefixValue() + (this.color() ? this.color().toHexString(this.color().getRgba().alpha < 1).replace('#', '') : '');
     }
 
     public onInputChange(event: KeyboardEvent, inputValue: string): void {
@@ -60,9 +42,7 @@ export class HexComponent {
              */
             if (hexStr.padStart(value.length, '0') === value && this.value !== value) {
                 const newColor = new Color(`#${value}`);
-                const hue = new Color().setHsva(newColor.getHsva().hue);
-                this.hueChange.emit(hue);
-                this.colorChange.emit(newColor);
+                this.color.set(newColor);
             }
         }
     }

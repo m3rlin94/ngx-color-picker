@@ -1,18 +1,27 @@
 import {
     Component,
     OnInit,
-    Input,
-    Output,
-    EventEmitter,
-    SimpleChanges,
     ChangeDetectionStrategy,
     OnDestroy,
-    OnChanges
+    ModelSignal,
+    model,
+    InputSignal,
+    input,
+    OnChanges,
+    SimpleChanges,
+    ChangeDetectorRef,
 } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
-import { getValueByType } from './../../helpers/helper.functions';
+import { getValueByType, isColorEqual } from './../../helpers/helper.functions';
 import { Subscription } from 'rxjs';
+import { SaturationComponent } from './../parts/saturation/saturation.component';
+import { IndicatorComponent } from './../parts/indicator/indicator.component';
+import { HueComponent } from './../parts/hue/hue.component';
+import { AlphaComponent } from './../parts/alpha/alpha.component';
+import { HexComponent } from './../parts/inputs/hex-input/hex-input.component';
+import { ColorPresetsComponent } from '../parts/color-presets/color-presets.component';
 
 @Component({
     selector: `ip-picker`,
@@ -21,35 +30,36 @@ import { Subscription } from 'rxjs';
         `./../parts/base.style.scss`,
         `./ip-picker.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        SaturationComponent,
+        IndicatorComponent,
+        HueComponent,
+        AlphaComponent,
+        ColorPresetsComponent,
+        HexComponent,
+        AsyncPipe
+    ]
 })
 export class IpPickerComponent implements OnInit, OnChanges, OnDestroy {
 
-    @Input()
-    public color: string;
+    public color: ModelSignal<ColorString> = model<ColorString>();
 
-    @Input()
-    public control: ColorPickerControl;
-
-    @Output()
-    public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
+    public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 
     private subscriptions: Array<Subscription> = [];
 
-    constructor() {
+    constructor(private readonly cdr: ChangeDetectorRef) {
     }
 
     public ngOnInit(): void {
-        if (!this.control) {
-            this.control = new ColorPickerControl();
-        }
-
         /**
          * set color presets
          * defined by this chrome color picker component
          */
-        if (!this.control.hasPresets()) {
-            this.control
+        if (!this.control().hasPresets()) {
+            this.control()
                 .setColorPresets([
                     ['#f44336', '#ffebee', '#ffcdd2', '#EF9A9A', '#E57373', '#EF5350', '#F44336', '#E53935', '#D32F2F', '#C62828', '#B71C1C'],
                     ['#E91E63', '#fce4ec', '#f8bbd0', '#f48fb1', '#f06292', '#ec407a', '#e91e63', '#d81b60', '#c2185b', '#ad1457', '#880e4f'],
@@ -73,26 +83,28 @@ export class IpPickerComponent implements OnInit, OnChanges, OnDestroy {
                 ]);
         }
 
-        if (this.color) {
-            this.control.setValueFrom(this.color);
-        }
-
         this.subscriptions.push(
-            this.control.valueChanges.subscribe((value) => {
-                this.colorChange.emit(getValueByType(value, this.control.initType));
+            this.control().valueChanges.subscribe((value) => {
+                this.color.set(getValueByType(value, this.control().initType));
+                this.cdr.detectChanges();
             })
         );
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        /**
+         * trigger only if color binding is changed
+         */
+        const color = this.color();
+        const control = this.control();
+        if (color && control && !isColorEqual(getValueByType(control.value, control.initType), color)) {
+            control.setValueFrom(color);
+        }
     }
 
     public ngOnDestroy(): void {
         this.subscriptions.forEach((subscription) => subscription.unsubscribe());
         this.subscriptions.length = 0;
-    }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (this.color && this.control && getValueByType(this.control.value, this.control.initType) !== this.color) {
-            this.control.setValueFrom(this.color);
-        }
     }
 
 }

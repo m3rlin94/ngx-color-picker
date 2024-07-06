@@ -1,3 +1,73 @@
+<a name="18.0.1"></a>
+## [18.0.1](https://github.com/pIvan/ngx-color-picker/commit/b9b0929b742e8c9ce469db4322d01186a996b283) (2024-05-28)
+### Feature
+### * Zoneless Demo build
+
+<a name="18.0.0"></a>
+## [18.0.0](https://github.com/pIvan/ngx-color-picker/commit/b9b0929b742e8c9ce469db4322d01186a996b283) (2024-05-28)
+### Feature
+### * Angular 18 support
+
+<a name="17.2.1"></a>
+## [17.2.1](https://github.com/pIvan/ngx-color-picker/commit/1b12cec750ade4624c9cd14326fcae614336a7fb) (2024-05-28)
+### Bug
+### * Error on writing to signals on first open from effect() fix
+
+<a name="17.2.0"></a>
+## [17.2.0](https://github.com/pIvan/ngx-color-picker/commit/b460318f9ff51b282760361637dc0b78053f890d) (2024-03-27)
+### Feature
+### * signal implementation
+### * documentation application update
+
+### Bug
+### * Fixed bug with rgba and hsla input fields
+
+<a name="17.1.0"></a>
+## [17.1.0](https://github.com/pIvan/ngx-color-picker/commit/530105f6edcc533245476394797e367f35bfd55b) (2023-11-14)
+### Feature
+### * standalone api supported
+### * new control flow implemented
+### * minor adjustments made to configuration so localization through configuration is easier
+
+<a name="17.0.0"></a>
+## [17.0.0](https://github.com/pIvan/ngx-color-picker/commit/ac043e615ebde89ce0c6d5449939f6bcf1ea8e48) (2023-11-13)
+### Feature
+### * Angular 17 support
+
+<a name="16.2.0"></a>
+## [16.1.0](https://github.com/pIvan/ngx-color-picker/commit/e387999d6c7758fa63b647732f679545776f23be) (2023-10-22)
+### Bug
+### * Hue component slider drifting in the wrap color picker example
+### * Defined HSVa as the base color
+
+<a name="16.1.0"></a>
+## [16.1.0](https://github.com/pIvan/ngx-color-picker/commit/3ca5dae3db80a369965eabc3686a26835938d9ba) (2023-08-24)
+### Feature
+### * Added support for adding content before and after all other elements within the color picker.
+
+
+<a name="16.0.0"></a>
+## [16.0.0](https://github.com/pIvan/ngx-color-picker/commit/071866862cd41ce5771357a2e71e0833dbfe4a49) (2023-05-16)
+### * Angular 16 support
+
+
+<a name="15.0.2"></a>
+## [15.0.2](https://github.com/pIvan/ngx-color-picker/commit/980f336e27d24f237b189bdc7f74d286ec992fc8) (2023-02-18)
+### * Bug - fixed issue with setting color which have hue value equal to 0
+### * Bug - preventing mouse up event to stop sliding on hue and saturation pickers
+
+
+<a name="15.0.1"></a>
+## [15.0.1](https://github.com/pIvan/ngx-color-picker/commit/4656a5ea4408e2a13c497f4f88222105dcbf30c1) (2023-02-18)
+### * Bug - Preventing "pull down to refresh" on touch devices
+### * Bug - moving the event listener after finishing the color selection
+
+
+<a name="15.0.0"></a>
+## [15.0.0](https://github.com/pIvan/ngx-color-picker/commit/da1bd9b0c9406f40ec6748b604f76f0148c3129b) (2022-11-21)
+### * Angular 15 support
+
+
 <a name="14.2.1"></a>
 ## [14.2.1](https://github.com/pIvan/ngx-color-picker/commit/62df22219b46bd4e954a26133912e6d8394bc214) (2022-09-11)
 

@@ -1,18 +1,21 @@
 import {
     Component,
-    Input,
     ChangeDetectionStrategy,
     Inject,
     OnDestroy,
     ChangeDetectorRef,
-    Output,
-    EventEmitter,
-    HostBinding
+    HostBinding,
+    InputSignal,
+    input,
+    OutputEmitterRef,
+    output
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Color } from './../../../helpers/color.class';
 import { OpacityAnimation, ListAnimation } from './color-preset-sublist.animation';
 import { fromEvent, merge, Subscription } from 'rxjs';
+import { ColorPresetComponent } from './../color-preset/color-preset.component';
+import { ReversePipe } from './../../../pipes/reverse.pipe';
 
 @Component({
     selector: `color-preset-sublist`,
@@ -22,21 +25,19 @@ import { fromEvent, merge, Subscription } from 'rxjs';
         `./color-preset-sublist.component.scss`
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [ColorPresetComponent, ReversePipe],
     animations: [OpacityAnimation, ListAnimation]
 })
 export class ColorPresetSublist implements OnDestroy {
 
-    @Input()
-    public list: Array<Color>;
+    public list: InputSignal<Array<Color>> = input.required<Array<Color>>();
 
-    @Output()
-    public selectionChange = new EventEmitter<Color>(false);
+    public activeColor: InputSignal<Color> = input.required<Color>();
 
-    @Input()
-    public direction: 'down' | 'up' | 'left' | 'right' = 'up';
+    public direction: InputSignal<'down' | 'up' | 'left' | 'right'> = input<'down' | 'up' | 'left' | 'right'>('up');
 
-    @Input()
-    public activeColor: Color;
+    public selectionChange: OutputEmitterRef<Color> = output<Color>();
 
     public showChildren: boolean = false;
 
@@ -52,21 +53,26 @@ export class ColorPresetSublist implements OnDestroy {
         this.cdr.detach();
     }
 
-    private removeListeners(): void {
-        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-        this.subscriptions.length = 0;
+    @HostBinding('className')
+    public get className(): string {
+        return `direction-${this.direction()}`;
     }
 
     /**
      * emit color change
      */
     public onSelectionChange(color: Color): void {
-        this.selectionChange.next(color);
+        this.selectionChange.emit(color);
     }
 
     public onLongPress(): void {
         this.showChildren = true;
         this.listenDocumentEvents();
+    }
+
+    private removeListeners(): void {
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subscriptions.length = 0;
     }
 
     private listenDocumentEvents(): void {
@@ -85,10 +91,5 @@ export class ColorPresetSublist implements OnDestroy {
             this.cdr.markForCheck();
             this.removeListeners();
         }
-    }
-
-    @HostBinding('className')
-    public get className(): string {
-        return `direction-${this.direction}`;
     }
 }

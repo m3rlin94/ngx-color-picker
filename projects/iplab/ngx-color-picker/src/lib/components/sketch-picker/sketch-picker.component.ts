@@ -1,19 +1,28 @@
 import {
     Component,
     OnInit,
-    Input,
-    Output,
-    EventEmitter,
     SimpleChanges,
     ChangeDetectionStrategy,
     OnChanges,
     OnDestroy,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    ModelSignal,
+    model,
+    input,
+    InputSignal,
 } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 import { ColorString } from './../../helpers/color.class';
 import { ColorPickerControl } from './../../helpers/control.class';
-import { getValueByType } from './../../helpers/helper.functions';
+import { getValueByType, isColorEqual } from './../../helpers/helper.functions';
 import { Subscription } from 'rxjs';
+import { SaturationComponent } from './../parts/saturation/saturation.component';
+import { IndicatorComponent } from './../parts/indicator/indicator.component';
+import { HueComponent } from './../parts/hue/hue.component';
+import { AlphaComponent } from './../parts/alpha/alpha.component';
+import { RgbaComponent } from './../parts/inputs/rgba-input/rgba-input.component';
+import { HexComponent } from './../parts/inputs/hex-input/hex-input.component';
+import { ColorPresetsComponent } from '../parts/color-presets/color-presets.component';
 
 @Component({
     selector: `sketch-picker`,
@@ -22,18 +31,24 @@ import { Subscription } from 'rxjs';
         `./../parts/base.style.scss`,
         `./sketch-picker.component.scss`
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        SaturationComponent,
+        IndicatorComponent,
+        HueComponent,
+        AlphaComponent,
+        HexComponent,
+        RgbaComponent,
+        ColorPresetsComponent,
+        AsyncPipe
+    ]
 })
 export class SketchPickerComponent implements OnInit, OnChanges, OnDestroy {
 
-    @Input()
-    public color: string;
+    public color: ModelSignal<ColorString> = model<ColorString>();
 
-    @Input()
-    public control: ColorPickerControl;
-
-    @Output()
-    public colorChange: EventEmitter<ColorString> = new EventEmitter(false);
+    public control: InputSignal<ColorPickerControl> = input<ColorPickerControl>(new ColorPickerControl());
 
     private subscriptions: Array<Subscription> = [];
 
@@ -41,20 +56,16 @@ export class SketchPickerComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public ngOnInit(): void {
-        if (!this.control) {
-            this.control = new ColorPickerControl();
+        if (this.color()) {
+            this.control().setValueFrom(this.color());
         }
 
-        if (this.color) {
-            this.control.setValueFrom(this.color);
-        }
-
-        if (!this.control.hasPresets()) {
+        if (!this.control().hasPresets()) {
             /**
              * set color presets
              * defined by sketch color picker component
              */
-            this.control
+            this.control()
                 .setColorPresets([
                     '#d0041b', '#8b572a', '#f5a623', '#f8e71c', '#7ed321', '#417506', '#bd10e0', '#9013fe',
                     '#4a90e2', '#50e3c2', '#b8e986', '#030303', '#4a4a4a', '#9b9b9b', '#fff'
@@ -62,22 +73,27 @@ export class SketchPickerComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.subscriptions.push(
-            this.control.valueChanges.subscribe((value) => {
-                this.cdr.markForCheck();
-                this.colorChange.emit(getValueByType(value, this.control.initType));
+            this.control().valueChanges.subscribe((value) => {
+                this.color.set(getValueByType(value, this.control().initType));
+                this.cdr.detectChanges();
             })
         );
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        /**
+         * trigger only if color binding is changed
+         */
+        const color = this.color();
+        const control = this.control();
+        if (color && control && !isColorEqual(getValueByType(control.value, control.initType), color)) {
+            control.setValueFrom(color);
+        }
     }
 
     public ngOnDestroy(): void {
         this.cdr.detach();
         this.subscriptions.forEach((subscription) => subscription.unsubscribe());
         this.subscriptions.length = 0;
-    }
-
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (this.color && this.control && getValueByType(this.control.value, this.control.initType) !== this.color) {
-            this.control.setValueFrom(this.color);
-        }
     }
 }
